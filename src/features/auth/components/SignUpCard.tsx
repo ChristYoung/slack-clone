@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { SignFlow } from '../types';
+import { useState } from 'react';
 
 export interface SignUpCardProps {
     setState: (state: SignFlow) => void;
@@ -12,6 +13,10 @@ export interface SignUpCardProps {
 
 export const SignUpCard: React.FC<SignUpCardProps> = (props: SignUpCardProps) => {
     const { setState } = props;
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    
     return <Card className='__SignInCard w-full h-full p-8'>
         <CardHeader className='px-0 pt-0'>
             <CardTitle>Sign up to continue</CardTitle>
@@ -19,9 +24,9 @@ export const SignUpCard: React.FC<SignUpCardProps> = (props: SignUpCardProps) =>
         </CardHeader>
         <CardContent className='space-y-5 px-0 pb-0'>
             <form className='space-y-2.5'>
-                <Input disabled={false} value="" placeholder='Email' type='email' onChange={() => { }} required />
-                <Input disabled={false} value="" placeholder='Password' type='password' onChange={() => { }} required />
-                <Input disabled={false} value="" placeholder='Confirm the password' type='password' onChange={() => { }} required />
+                <Input disabled={false} value={email} placeholder='Email' type='email' onChange={(e) => {setEmail(e.target.value)}} required />
+                <Input disabled={false} value={password} placeholder='Password' type='password' onChange={(e) => {setPassword(e.target.value)}} required />
+                <Input disabled={false} value={confirmPassword} placeholder='Confirm the password' type='password' onChange={(e) => {setConfirmPassword(e.target.value)}} required />
                 <Button type='submit' className='w-full' size={'lg'}>Continue</Button>
             </form>
             <Separator />
