@@ -1,3 +1,5 @@
+import { useAuthActions } from '@convex-dev/auth/react';
+import { TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 
@@ -6,8 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
-import { useAuthActions } from '@convex-dev/auth/react';
-import { TriangleAlert } from 'lucide-react';
 import { SignFlow } from '../types';
 
 export interface SignUpCardProps {
@@ -17,7 +17,7 @@ export interface SignUpCardProps {
 export const SignUpCard: React.FC<SignUpCardProps> = (props: SignUpCardProps) => {
   const { setState } = props;
   const { signIn } = useAuthActions();
-  
+
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

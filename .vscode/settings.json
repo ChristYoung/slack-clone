@@ -1,21 +1,10 @@
 {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
-    },
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact"
-    ],
-    "cSpell.words": [
-        "autodocs",
-        "lucide",
-        "overscan",
-        "tseslint",
-        "zustand"
-    ],
-    "commentTranslate.source": "Google",
-    "commentTranslate.multiLineMerge": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "cSpell.words": ["autodocs", "lucide", "overscan", "tseslint", "zustand"],
+  "commentTranslate.source": "Google",
+  "commentTranslate.multiLineMerge": true
 }
