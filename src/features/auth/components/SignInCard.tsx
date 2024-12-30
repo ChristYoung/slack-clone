@@ -2,16 +2,9 @@ import { useAuthActions } from '@convex-dev/auth/react';
 import { TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
@@ -21,9 +14,7 @@ export interface SignInCardProps {
   setState: (state: SignFlow) => void;
 }
 
-export const SignInCard: React.FC<SignInCardProps> = (
-  props: SignInCardProps
-) => {
+export const SignInCard: React.FC<SignInCardProps> = (props: SignInCardProps) => {
   const { setState } = props;
   const { signIn } = useAuthActions();
   const [email, setEmail] = useState<string>('');
@@ -84,33 +75,19 @@ export const SignInCard: React.FC<SignInCardProps> = (
             }}
             required
           />
-          <Button
-            type='submit'
-            className='w-full'
-            size={'lg'}
-            disabled={spinning}
-          >
+          <Button type='submit' className='w-full' size={'lg'} disabled={spinning}>
             Continue
           </Button>
         </form>
         <Separator />
         <div className='flex flex-col gap-y-2.5'>
-          <Button
-            variant='outline'
-            className='w-full'
-            size={'lg'}
-            disabled={spinning}
-            onClick={() => onProviderSignIn('github')}
-          >
+          <Button variant='outline' className='w-full' size={'lg'} disabled={spinning} onClick={() => onProviderSignIn('github')}>
             <FaGithub /> Continue with Github
           </Button>
         </div>
         <p className='text-xs text-muted-foreground'>
           Don&apos;t have an account?{' '}
-          <span
-            className='text-sky-700 hover:underline cursor-pointer'
-            onClick={() => setState('signUp')}
-          >
+          <span className='text-sky-700 hover:underline cursor-pointer' onClick={() => setState('signUp')}>
             Sign up
           </span>
         </p>

@@ -3,13 +3,7 @@ import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
@@ -19,9 +13,7 @@ export interface SignUpCardProps {
   setState: (state: SignFlow) => void;
 }
 
-export const SignUpCard: React.FC<SignUpCardProps> = (
-  props: SignUpCardProps
-) => {
+export const SignUpCard: React.FC<SignUpCardProps> = (props: SignUpCardProps) => {
   const { setState } = props;
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -80,10 +72,7 @@ export const SignUpCard: React.FC<SignUpCardProps> = (
         </div>
         <p className='text-xs text-muted-foreground'>
           Already have an account?{' '}
-          <span
-            className='text-sky-700 hover:underline cursor-pointer'
-            onClick={() => setState('singIn')}
-          >
+          <span className='text-sky-700 hover:underline cursor-pointer' onClick={() => setState('singIn')}>
             Sign in
           </span>
         </p>
