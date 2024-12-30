@@ -1,5 +1,5 @@
 const Page: React.FC = () => {
-    return <div className='__page'>page component works!</div>;
+    return <div className='__page'>SignIn page component works!</div>;
 };
 
 export default Page;
