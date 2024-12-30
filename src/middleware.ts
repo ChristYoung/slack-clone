@@ -7,6 +7,9 @@ export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
     if (!isPublicPage(request) && !isAuthenticated) {
       return nextjsMiddlewareRedirect(request, "/auth");
     }
+    if (isPublicPage(request) && isAuthenticated) {
+      return nextjsMiddlewareRedirect(request, "/");
+    }
     // TODO: redirect user away if they are authenticated and trying to access the signin page
   });
  
