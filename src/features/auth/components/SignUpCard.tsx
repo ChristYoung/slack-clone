@@ -17,7 +17,7 @@ export const SignUpCard: React.FC<SignUpCardProps> = (props: SignUpCardProps) =>
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     
-    return <Card className='__SignInCard w-full h-full p-8'>
+    return <Card className='__SignUpCard w-full h-full p-8'>
         <CardHeader className='px-0 pt-0'>
             <CardTitle>Sign up to continue</CardTitle>
             <CardDescription>Use your email or another service</CardDescription>
