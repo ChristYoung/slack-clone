@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { SignFlow } from '../types';
 import { useState } from 'react';
+import { useAuthActions } from '@convex-dev/auth/react';
 
 export interface SignInCardProps {
     setState: (state: SignFlow) => void;
@@ -13,8 +14,13 @@ export interface SignInCardProps {
 
 export const SignInCard: React.FC<SignInCardProps> = (props: SignInCardProps) => {
     const { setState } = props;
+    const { signIn } = useAuthActions();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+    const handleProviderSignIn = (value: "github" | "google") => {
+        signIn(value);
+    };
 
     return <Card className='__SignInCard w-full h-full p-8'>
         <CardHeader className='px-0 pt-0'>
@@ -29,8 +35,8 @@ export const SignInCard: React.FC<SignInCardProps> = (props: SignInCardProps) =>
             </form>
             <Separator />
             <div className='flex flex-col gap-y-2.5'>
-                <Button variant='outline' className='w-full' size={'lg'}><FcGoogle /> Continue with Google</Button>
-                <Button variant='outline' className='w-full' size={'lg'}><FaGithub /> Continue with Github</Button>
+                <Button variant='outline' className='w-full' size={'lg'} onClick={() => handleProviderSignIn('github')}><FaGithub /> Continue with Github</Button>
+                <Button variant='outline' className='w-full' size={'lg'} disabled><FcGoogle /> Continue with Google</Button>
             </div>
             <p className='text-xs text-muted-foreground'>
                 Don&apos;t have an account? <span className='text-sky-700 hover:underline cursor-pointer'
