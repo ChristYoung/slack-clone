@@ -1,5 +1,7 @@
+import { AuthScreen } from '@/features/auth/components/AuthScreen';
+
 const AuthPage: React.FC = () => {
-    return <div className='__page'>SignIn page component works!</div>;
+    return <AuthScreen />;
 };
 
 export default AuthPage;
