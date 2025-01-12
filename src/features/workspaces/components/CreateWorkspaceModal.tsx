@@ -11,7 +11,7 @@ export interface CreateWorkspaceModalProps {}
 
 export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props: CreateWorkspaceModalProps) => {
   const [open, setOpen] = useCreateWorkspaceModal();
-  const { mutate } = useCreateWorkspaceApi();
+  const { mutate, isPending, workSpaceId } = useCreateWorkspaceApi();
   const handleClose = () => {
     setOpen(false);
   };
