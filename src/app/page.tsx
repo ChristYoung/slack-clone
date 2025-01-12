@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from 'react';
 
 import { UserBtn } from '@/features/auth/components/UserBtn';
-import { useGetWorkspaces } from '@/features/workspaces/api/useGetWorkspaces';
+import { useGetWorkspaces } from '@/features/workspaces/apis/useGetWorkspaces';
 
 export default function Home() {
   const { isLoadingWorkspaces, workspaces } = useGetWorkspaces();
