@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -30,6 +31,7 @@ export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props:
       {
         onSuccess: (id) => {
           // redirect to the workspace Id
+          toast.success('Workspace has been created.');
           router.push(`/workspace/${id}`);
           handleClose();
         },
