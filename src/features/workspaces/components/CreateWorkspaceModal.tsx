@@ -22,7 +22,7 @@ export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props:
         name: 'WorkSpace1',
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           // redirect to the workspace Id
         },
         onError: (error) => {
