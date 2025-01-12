@@ -1,6 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 
 import { useCreateWorkspaceModal } from '../store/workspaceModal.store';
 
@@ -17,6 +19,12 @@ export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props:
         <DialogHeader>
           <DialogTitle>Create a new workspace</DialogTitle>
         </DialogHeader>
+        <form className='space-y-4'>
+          <Input disabled={false} value={''} required autoFocus minLength={3} placeholder='Workspace name' />
+          <div className='flex justify-end'>
+            <Button type='submit'>Create</Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

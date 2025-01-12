@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { ConvexClientProvider } from '@/components/convex-client-provider';
-import { CreateWorkspaceModal } from '@/features/workspaces/components/CreateWorkspaceModal';
+import { Modals } from '@/components/modals';
 
 import './globals.css';
 
@@ -24,7 +24,7 @@ export default function RootLayout({
       <html lang='en'>
         <body className={inter.className}>
           <ConvexClientProvider>
-            <CreateWorkspaceModal />
+            <Modals />
             {children}
           </ConvexClientProvider>
         </body>
