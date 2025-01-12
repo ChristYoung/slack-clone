@@ -12,8 +12,6 @@ type Options = {
 
 type RequestProp = { name: string; description?: string };
 
-// TODO: add more fields
-
 export const useCreateWorkspaceApi = () => {
   const [workSpaceId, setWorkSpaceId] = useState<Id<'workspaces'> | null>(null);
   const [status, setStatus] = useState<'settled' | 'pending' | 'success' | 'error' | null>(null);
@@ -24,7 +22,7 @@ export const useCreateWorkspaceApi = () => {
 
   const mutation = useMutation(api.workspaces.create);
   const mutate = useCallback(
-    async (requestBody: any, options?: Options) => {
+    async (requestBody: RequestProp, options?: Options) => {
       try {
         setStatus('pending');
         setWorkSpaceId(null);

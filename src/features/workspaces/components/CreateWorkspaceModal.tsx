@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -12,11 +13,13 @@ import { useCreateWorkspaceModal } from '../store/workspaceModal.store';
 export interface CreateWorkspaceModalProps {}
 
 export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props: CreateWorkspaceModalProps) => {
+  const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
   const { mutate, isPending, workSpaceId } = useCreateWorkspaceApi();
   const [workSpaceName, setWorkSpaceName] = useState('');
   const handleClose = () => {
     setOpen(false);
+    setWorkSpaceName('');
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,8 +28,10 @@ export const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = (props:
         name: workSpaceName,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: (id) => {
           // redirect to the workspace Id
+          router.push(`/workspace/${id}`);
+          handleClose();
         },
         onError: (error) => {
           // Show error toast

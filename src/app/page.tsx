@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
 import { UserBtn } from '@/features/auth/components/UserBtn';
@@ -8,6 +9,7 @@ import { useGetWorkspacesApi } from '@/features/workspaces/apis/useGetWorkspaces
 import { useCreateWorkspaceModal } from '../features/workspaces/store/workspaceModal.store';
 
 export default function Home() {
+  const router = useRouter();
   const { isLoadingWorkspaces, workspaces } = useGetWorkspacesApi();
   const [openCreateWorkspaceModal, setOpenCreateWorkspaceModal] = useCreateWorkspaceModal();
   const workspaceId = useMemo(() => {
@@ -19,13 +21,12 @@ export default function Home() {
       return;
     }
     if (workspaceId) {
-      // TODO: handle no workspace
-      return;
+      router.replace(`/workspace/${workspaceId}`);
     } else if (!openCreateWorkspaceModal) {
       // TODO: handle workspace
       setOpenCreateWorkspaceModal(true);
     }
-  }, [workspaceId, isLoadingWorkspaces, openCreateWorkspaceModal, setOpenCreateWorkspaceModal]);
+  }, [workspaceId, isLoadingWorkspaces, openCreateWorkspaceModal, setOpenCreateWorkspaceModal, router]);
 
   return (
     <div>
