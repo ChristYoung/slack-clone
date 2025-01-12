@@ -6,7 +6,7 @@ import { Loader, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
-import { useCurrentUser } from '../hooks';
+import { useCurrentUser } from '../apis';
 
 export const UserBtn: React.FC = () => {
   const { userInfo, isLoading } = useCurrentUser();
