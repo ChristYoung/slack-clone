@@ -1,5 +1,5 @@
 import { useMutation } from 'convex/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '../../../../convex/_generated/api';
 import { Id } from '../../../../convex/_generated/dataModel';
@@ -16,39 +16,32 @@ type RequestProp = { name: string; description?: string };
 
 export const useCreateWorkspaceApi = () => {
   const [workSpaceId, setWorkSpaceId] = useState<Id<'workspaces'> | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [isPending, setIsPending] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [settled, setIsSettled] = useState(false);
+  const [status, setStatus] = useState<'settled' | 'pending' | 'success' | 'error' | null>(null);
+  const isPending = useMemo(() => status === 'pending', [status]);
+  const isSuccess = useMemo(() => status === 'success', [status]);
+  const isError = useMemo(() => status === 'error', [status]);
+  const settled = useMemo(() => status === 'settled', [status]);
 
   const mutation = useMutation(api.workspaces.create);
   const mutate = useCallback(
     async (requestBody: any, options?: Options) => {
       try {
-        setIsPending(true);
-        setIsError(false);
-        setIsSuccess(false);
-        setIsSettled(false);
-        setError(null);
+        setStatus('pending');
         setWorkSpaceId(null);
-
         const response = await mutation(requestBody);
         setWorkSpaceId(response);
-        setIsSuccess(true);
+        setStatus('success');
         options?.onSuccess?.(response);
         return response;
       } catch (error) {
-        setError(error as Error);
-        setIsError(true);
+        setStatus('error');
         options?.onError?.(error as Error);
       } finally {
-        setIsPending(false);
-        setIsSettled(true);
+        setStatus('settled');
         options?.onSettled?.();
       }
     },
     [mutation]
   );
-  return { mutate, workSpaceId, error, isPending, isSuccess, isError, settled };
+  return { mutate, workSpaceId, isPending, isSuccess, isError, settled };
 };
