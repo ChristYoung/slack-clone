@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 
 import { mutation, query } from './_generated/server';
 
-const create = mutation({
+export const create = mutation({
   args: {
     name: v.string(),
   },
