@@ -5,7 +5,7 @@ import { useEffect, useMemo } from 'react';
 import { UserBtn } from '@/features/auth/components/UserBtn';
 import { useGetWorkspaces } from '@/features/workspaces/apis/useGetWorkspaces';
 
-import { useCreateWorkspaceModal } from './store/workspaceModal.store';
+import { useCreateWorkspaceModal } from '../features/workspaces/store/workspaceModal.store';
 
 export default function Home() {
   const { isLoadingWorkspaces, workspaces } = useGetWorkspaces();
