@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 export interface SidebarBtnProps {
   icon: LucideIcon | IconType;
   label: string;
-  active: boolean;
+  active?: boolean;
 }
 
 const SidebarBtn: React.FC<SidebarBtnProps> = (props: SidebarBtnProps) => {
