@@ -1,3 +1,5 @@
+'use client';
+
 import { UserBtn } from '@/features/auth/components/UserBtn';
 
 import WorkspaceSwitcher from './workspaceSwitcher';
