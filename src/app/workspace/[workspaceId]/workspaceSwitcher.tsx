@@ -1,3 +1,10 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
 export interface WorkspaceSwitcherProps {}
 
 const WorkspaceSwitcher: React.FC<WorkspaceSwitcherProps> = (props: WorkspaceSwitcherProps) => {

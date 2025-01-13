@@ -81,7 +81,13 @@ export const SignInCard: React.FC<SignInCardProps> = (props: SignInCardProps) =>
         </form>
         <Separator />
         <div className='flex flex-col gap-y-2.5'>
-          <Button variant='outline' className='w-full' size={'lg'} disabled={spinning} onClick={() => onProviderSignIn('github')}>
+          <Button
+            variant='outline'
+            className='w-full'
+            size={'lg'}
+            disabled={spinning}
+            onClick={() => onProviderSignIn('github')}
+          >
             <FaGithub /> Continue with Github
           </Button>
         </div>
