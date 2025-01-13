@@ -1,6 +1,6 @@
 {
   "React Functional Component with props": {
-    "prefix": "rfp",
+    "prefix": "fcp",
     "body": [
       "export interface ${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}Props {",
       "}",
@@ -11,8 +11,22 @@
     ],
     "description": "Creates a React functional component with props",
   },
+  "React default Functional Component with props": {
+    "prefix": "fcpd",
+    "body": [
+      "export interface ${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}Props {",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}: React.FC<${1:${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}Props}> = (props: ${2:${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}Props}) => {",
+      "    return <div className='__${TM_FILENAME_BASE}'>${TM_FILENAME_BASE} component works!</div>;",
+      "};",
+      "",
+      "export default ${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/};",
+    ],
+    "description": "Creates a React functional component with props",
+  },
   "React Functional Component without props": {
-    "prefix": "rf",
+    "prefix": "fc",
     "body": [
       "export const ${TM_FILENAME_BASE/(^\\w)/${1:/capitalize}/}: React.FC = () => {",
       "    return <div className='__${TM_FILENAME_BASE}'>${TM_FILENAME_BASE} component works!</div>;",
