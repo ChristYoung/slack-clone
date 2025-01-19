@@ -1,5 +1,6 @@
 import { ChevronDown, ListFilter, SquarePen } from 'lucide-react';
 
+import { Hit } from '@/components/hit';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -50,12 +51,16 @@ export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({ workspaceItem,
         </DropdownMenuContent>
       </DropdownMenu>
       <div className='flex items-center gap-0.5'>
-        <Button variant={'transparent'} size={'iconSm'}>
-          <ListFilter className='size-4' />
-        </Button>
-        <Button variant={'transparent'} size={'iconSm'}>
-          <SquarePen className='size-4' />
-        </Button>
+        <Hit label='Filter conversations' side='bottom'>
+          <Button variant={'transparent'} size={'iconSm'}>
+            <ListFilter className='size-4' />
+          </Button>
+        </Hit>
+        <Hit label='New message' side='bottom'>
+          <Button variant={'transparent'} size={'iconSm'}>
+            <SquarePen className='size-4' />
+          </Button>
+        </Hit>
       </div>
     </div>
   );
