@@ -4,8 +4,13 @@
   "jsxSingleQuote": true,
   "trailingComma": "es5",
   "arrowParens": "always",
-  "printWidth": 120,
-  "importOrder": ["^@/(.*)$", "^[./]"],
+  "printWidth": 100,
+  "importOrder": [
+    "^@/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ]
 }

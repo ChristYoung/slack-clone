@@ -23,7 +23,11 @@ export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({ workspaceItem,
   const [openPreferences, setOpenPreferences] = useState(false);
   return (
     <>
-      <PreferencesModal open={openPreferences} setOpen={setOpenPreferences} initialValue={workspaceItem?.name} />
+      <PreferencesModal
+        openPreferences={openPreferences}
+        setOpenPreferences={setOpenPreferences}
+        initialValue={workspaceItem?.name}
+      />
       <div className='__workspaceHeader flex items-center justify-between px-4 h-[49px] gap-0.5'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
