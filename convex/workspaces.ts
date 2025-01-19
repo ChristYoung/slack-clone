@@ -6,7 +6,10 @@ import { mutation, query } from './_generated/server';
 const generateJoinCode = () => {
   return Array.from(
     { length: 6 },
-    () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 62)]
+    () =>
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[
+        Math.floor(Math.random() * 62)
+      ]
   ).join('');
 };
 
@@ -75,12 +78,39 @@ export const getWorkspaceById = query({
     }
     const member = await ctx.db
       .query('members')
-      .withIndex('by_workspace_id_and_user_id', (q) => q.eq('workspaceId', args.id).eq('userId', userId))
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.id).eq('userId', userId)
+      )
       .unique();
     // 判断当前登录的用户是否是当前工作区的成员
     if (!member) {
       return null;
     }
     return await ctx.db.get(args.id);
+  },
+});
+
+export const update = mutation({
+  args: {
+    id: v.id('workspaces'),
+    name: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.id).eq('userId', userId)
+      )
+      .unique();
+    // 判断当前登录的用户是否是当前工作区的成员
+    if (!member || member.role !== 'admin') {
+      throw new Error('User is not an admin of this workspace');
+    }
+    await ctx.db.patch(args.id, { name: args.name });
+    return args.id;
   },
 });
