@@ -3,6 +3,13 @@ import { v } from 'convex/values';
 
 import { mutation, query } from './_generated/server';
 
+const generateJoinCode = () => {
+  return Array.from(
+    { length: 6 },
+    () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 62)]
+  ).join('');
+};
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -12,7 +19,7 @@ export const create = mutation({
     if (!userId) {
       throw new Error('User not authenticated');
     }
-    const joinCode = 'dsdsdsds1222';
+    const joinCode = generateJoinCode();
     const workspaceId = await ctx.db.insert('workspaces', {
       name,
       joinCode,
@@ -65,6 +72,14 @@ export const getWorkspaceById = query({
     const userId = await getAuthUserId(ctx);
     if (!userId) {
       throw new Error('User not authenticated');
+    }
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) => q.eq('workspaceId', args.id).eq('userId', userId))
+      .unique();
+    // 判断当前登录的用户是否是当前工作区的成员
+    if (!member) {
+      return null;
     }
     return await ctx.db.get(args.id);
   },
