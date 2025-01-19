@@ -10,7 +10,7 @@ export interface WorkspaceSidebarProps {}
 
 export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: WorkspaceSidebarProps) => {
   const workspaceId = useWorkSpaceId();
-  const { data: members, isLoading: isMembersLoading } = useCurrentMemberApi({ workspaceId });
+  const { data: currentMember, isLoading: isMembersLoading } = useCurrentMemberApi({ workspaceId });
   const { workspaceItem, isLoadingWorkspace } = useGetWorkspaceByIdApi({ id: workspaceId });
   if (isLoadingWorkspace || isMembersLoading) {
     return (
@@ -19,7 +19,7 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
       </div>
     );
   }
-  if (!workspaceItem || !members) {
+  if (!workspaceItem || !currentMember) {
     return (
       <div className='flex flex-col gap-y-2 bg-[#5E2C5F] h-full items-center justify-center'>
         <AlertTriangle className='size-5 text-white' />
@@ -29,7 +29,7 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
   }
   return (
     <div className='__workspaceSidebar flex flex-col bg-[#5E2C5F] h-full'>
-      <WorkspaceHeader workspaceItem={workspaceItem}></WorkspaceHeader>
+      <WorkspaceHeader workspaceItem={workspaceItem} isAdmin={currentMember.role === 'admin'}></WorkspaceHeader>
     </div>
   );
 };

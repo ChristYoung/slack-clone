@@ -1,4 +1,3 @@
-import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -7,15 +6,17 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
 import { Doc } from '../../../../convex/_generated/dataModel';
 
-export const WorkspaceHeader: React.FC<{ workspaceItem: Doc<'workspaces'> }> = ({
-  workspaceItem,
-}: {
+export interface WorkspaceHeaderProps {
   workspaceItem: Doc<'workspaces'>;
-}) => {
+  isAdmin: boolean;
+}
+
+export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({ workspaceItem, isAdmin }: WorkspaceHeaderProps) => {
   return (
     <div className='__workspaceHeader flex items-center justify-between px-4 h-[49px] gap-0.5'>
       <DropdownMenu>
@@ -35,13 +36,17 @@ export const WorkspaceHeader: React.FC<{ workspaceItem: Doc<'workspaces'> }> = (
               <p className='text-xs text-muted-foreground'>Active workspace</p>
             </div>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
-            Invite people to {workspaceItem.name}
-          </DropdownMenuItem>
-          <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
-            Preferences
-          </DropdownMenuItem>
+          {isAdmin && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
+                Invite people to {workspaceItem.name}
+              </DropdownMenuItem>
+              <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
+                Preferences
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
