@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 export interface PreferencesModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -9,5 +13,14 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
   setOpen,
   initialValue,
 }: PreferencesModalProps) => {
-  return <></>;
+  const [value, setValue] = useState(initialValue);
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle></DialogTitle>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
 };

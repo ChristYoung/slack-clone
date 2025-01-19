@@ -1,4 +1,5 @@
 import { ChevronDown, ListFilter, SquarePen } from 'lucide-react';
+import { useState } from 'react';
 
 import { Hit } from '@/components/hit';
 import { Button } from '@/components/ui/button';
@@ -19,9 +20,10 @@ export interface WorkspaceHeaderProps {
 }
 
 export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({ workspaceItem, isAdmin }: WorkspaceHeaderProps) => {
+  const [openPreferences, setOpenPreferences] = useState(false);
   return (
     <>
-      {/* <PreferencesModal /> */}
+      <PreferencesModal open={openPreferences} setOpen={setOpenPreferences} initialValue={workspaceItem?.name} />
       <div className='__workspaceHeader flex items-center justify-between px-4 h-[49px] gap-0.5'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -46,7 +48,7 @@ export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({ workspaceItem,
                 <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
                   Invite people to {workspaceItem.name}
                 </DropdownMenuItem>
-                <DropdownMenuItem className='cursor-pointer py-2' onClick={() => {}}>
+                <DropdownMenuItem className='cursor-pointer py-2' onClick={() => setOpenPreferences(true)}>
                   Preferences
                 </DropdownMenuItem>
               </>
