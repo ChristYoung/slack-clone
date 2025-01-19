@@ -4,6 +4,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 
 import Sidebar from './sidebar';
 import Toolbar from './toolbar';
+import { WorkspaceSidebar } from './workspaceSidebar';
 
 interface WorkSpaceIdLayoutProps {
   children: React.ReactNode;
@@ -17,7 +18,7 @@ const WorkSpaceIdLayout: React.FC<WorkSpaceIdLayoutProps> = ({ children }) => {
         <Sidebar />
         <ResizablePanelGroup autoSaveId={'j-workspace-layout'} direction='horizontal'>
           <ResizablePanel defaultSize={20} minSize={11} className='bg-[#5E2C5F]'>
-            <div>Channels Side bar</div>
+            <WorkspaceSidebar />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel minSize={20}>{children}</ResizablePanel>
