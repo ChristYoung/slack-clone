@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useUpdateWorkspaceApi } from '@/features/workspaces/apis/useUpdateWorkspaceApi';
 
 export interface PreferencesModalProps {
   openPreferences: boolean;
@@ -16,6 +17,7 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
   initialValue,
 }: PreferencesModalProps) => {
   const [value, setValue] = useState(initialValue);
+  const { isPending: isUpdateWorkspacePending } = useUpdateWorkspaceApi();
   return (
     <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
       <DialogContent className='p-0 bg-gray-50 overflow-hidden'>

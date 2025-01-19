@@ -114,3 +114,39 @@ export const update = mutation({
     return args.id;
   },
 });
+
+export const deleteWorkspace = mutation({
+  args: {
+    id: v.id('workspaces'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.id).eq('userId', userId)
+      )
+      .unique();
+    // 判断当前登录的用户是否是当前工作区的成员
+    if (!member || member.role !== 'admin') {
+      throw new Error('User is not an admin of this workspace');
+    }
+
+    // delete all the members of the workspace
+    const [members] = await Promise.all([
+      ctx.db
+        .query('members')
+        .withIndex('by_workspace_id', (q) => q.eq('workspaceId', args.id))
+        .collect(),
+    ]);
+    for (const member of members) {
+      await ctx.db.delete(member._id);
+    }
+
+    await ctx.db.delete(args.id);
+    return args.id;
+  },
+});
