@@ -28,7 +28,10 @@ const WorkspaceSwitcher: React.FC<WorkspaceSwitcherProps> = (props: WorkspaceSwi
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className='size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl'>
+        <Button
+          variant={'transparent'}
+          className='size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl'
+        >
           {isLoadingWorkspace ? (
             <Loader className='size-5 animate-spin shrink-0' />
           ) : (
