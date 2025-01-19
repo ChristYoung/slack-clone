@@ -1,7 +1,7 @@
 import { AuthScreen } from '@/features/auth/components/AuthScreen';
 
 const AuthPage: React.FC = () => {
-    return <AuthScreen />;
+  return <AuthScreen />;
 };
 
 export default AuthPage;
