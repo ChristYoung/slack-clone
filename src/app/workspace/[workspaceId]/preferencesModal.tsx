@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useDeleteWorkspaceApi } from '@/features/workspaces/apis/useDeleteWorkspaceApi';
 import { useUpdateWorkspaceApi } from '@/features/workspaces/apis/useUpdateWorkspaceApi';
 
 export interface PreferencesModalProps {
@@ -18,6 +19,8 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
 }: PreferencesModalProps) => {
   const [value, setValue] = useState(initialValue);
   const { isPending: isUpdateWorkspacePending } = useUpdateWorkspaceApi();
+  const { isPending: isDeleteWorkspacePending } = useDeleteWorkspaceApi();
+
   return (
     <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
       <DialogContent className='p-0 bg-gray-50 overflow-hidden'>
