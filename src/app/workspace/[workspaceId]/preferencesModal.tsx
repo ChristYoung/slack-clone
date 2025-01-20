@@ -1,5 +1,6 @@
 import { DialogClose, DialogTrigger } from '@radix-ui/react-dialog';
 import { TrashIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,11 +28,27 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
   setOpenPreferences,
   initialValue,
 }: PreferencesModalProps) => {
+  const router = useRouter();
   const workspaceId = useWorkSpaceId();
   const [value, setValue] = useState(initialValue);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const { isPending: isUpdateWorkspacePending, mutate: updateWorkspace } = useUpdateWorkspaceApi();
-  const { isPending: isDeleteWorkspacePending } = useDeleteWorkspaceApi();
+  const { isPending: isDeleteWorkspacePending, mutate: deleteWorkspace } = useDeleteWorkspaceApi();
+
+  const onDeleteWorkspace = () => {
+    deleteWorkspace(
+      { id: workspaceId },
+      {
+        onSuccess: () => {
+          toast.success('Workspace deleted successfully');
+          router.replace('/');
+        },
+        onError: (error) => {
+          toast.error('Failed to delete workspace');
+        },
+      }
+    );
+  };
 
   const onUpdateWorkspaceSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,7 +113,8 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
           </Dialog>
           <Button
             type='button'
-            disabled={false}
+            disabled={isDeleteWorkspacePending}
+            onClick={onDeleteWorkspace}
             className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600'
           >
             <TrashIcon className='size-4' />
