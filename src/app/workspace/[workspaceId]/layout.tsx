@@ -20,7 +20,7 @@ const WorkSpaceIdLayout: React.FC<WorkSpaceIdLayoutProps> = ({ children }) => {
           <ResizablePanel defaultSize={20} minSize={11} className='bg-[#5E2C5F]'>
             <WorkspaceSidebar />
           </ResizablePanel>
-          <ResizableHandle withHandle />
+          <ResizableHandle withHandle className='cursor-row-resize' />
           <ResizablePanel minSize={20}>{children}</ResizablePanel>
         </ResizablePanelGroup>
       </div>
