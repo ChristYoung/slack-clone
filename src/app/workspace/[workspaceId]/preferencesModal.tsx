@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useDeleteWorkspaceApi } from '@/features/workspaces/apis/useDeleteWorkspaceApi';
 import { useUpdateWorkspaceApi } from '@/features/workspaces/apis/useUpdateWorkspaceApi';
+import { useConfirm } from '@/hooks/useConfirm';
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 export interface PreferencesModalProps {
@@ -30,12 +31,19 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
 }: PreferencesModalProps) => {
   const router = useRouter();
   const workspaceId = useWorkSpaceId();
+  const [ConfirmDialog, confirm] = useConfirm({
+    title: 'Are you sure?',
+    message: 'This action cannot be undone.',
+  });
+
   const [value, setValue] = useState(initialValue);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const { isPending: isUpdateWorkspacePending, mutate: updateWorkspace } = useUpdateWorkspaceApi();
   const { isPending: isDeleteWorkspacePending, mutate: deleteWorkspace } = useDeleteWorkspaceApi();
 
-  const onDeleteWorkspace = () => {
+  const onDeleteWorkspace = async () => {
+    const ok = await confirm();
+    if (!ok) return;
     deleteWorkspace(
       { id: workspaceId },
       {
@@ -67,61 +75,64 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
   };
 
   return (
-    <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
-      <DialogContent className='p-0 bg-gray-50 overflow-hidden'>
-        <DialogHeader className='p-4 border-b bg-white'>
-          <DialogTitle>{value}</DialogTitle>
-        </DialogHeader>
-        <div className='px-4 pb-4 flex flex-col gap-y-2'>
-          <Dialog open={openEdit} onOpenChange={setOpenEdit}>
-            <DialogTrigger asChild>
-              <div className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'>
-                <div className='flex items-center justify-between'>
-                  <p className='text-sm font-semibold'>Workspace name</p>
-                  <p className='text-sm text-[#1264a3] hover:underline font-semibold'>Edit</p>
+    <>
+      <ConfirmDialog />
+      <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
+        <DialogContent className='p-0 bg-gray-50 overflow-hidden'>
+          <DialogHeader className='p-4 border-b bg-white'>
+            <DialogTitle>{value}</DialogTitle>
+          </DialogHeader>
+          <div className='px-4 pb-4 flex flex-col gap-y-2'>
+            <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+              <DialogTrigger asChild>
+                <div className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'>
+                  <div className='flex items-center justify-between'>
+                    <p className='text-sm font-semibold'>Workspace name</p>
+                    <p className='text-sm text-[#1264a3] hover:underline font-semibold'>Edit</p>
+                  </div>
+                  <p className='text-sm'>{value}</p>
                 </div>
-                <p className='text-sm'>{value}</p>
-              </div>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit Workspace Name</DialogTitle>
-              </DialogHeader>
-              <form className='space-y-4' onSubmit={onUpdateWorkspaceSubmit}>
-                <Input
-                  value={value}
-                  disabled={isUpdateWorkspacePending}
-                  onChange={(e) => setValue(e.target.value)}
-                  required
-                  autoFocus
-                  minLength={3}
-                  maxLength={80}
-                  placeholder='Workspace name'
-                />
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant={'outline'} disabled={isUpdateWorkspacePending}>
-                      Cancel
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit Workspace Name</DialogTitle>
+                </DialogHeader>
+                <form className='space-y-4' onSubmit={onUpdateWorkspaceSubmit}>
+                  <Input
+                    value={value}
+                    disabled={isUpdateWorkspacePending}
+                    onChange={(e) => setValue(e.target.value)}
+                    required
+                    autoFocus
+                    minLength={3}
+                    maxLength={80}
+                    placeholder='Workspace name'
+                  />
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant={'outline'} disabled={isUpdateWorkspacePending}>
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                    <Button type='submit' disabled={isUpdateWorkspacePending}>
+                      Save
                     </Button>
-                  </DialogClose>
-                  <Button type='submit' disabled={isUpdateWorkspacePending}>
-                    Save
-                  </Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
-          <Button
-            type='button'
-            disabled={isDeleteWorkspacePending}
-            onClick={onDeleteWorkspace}
-            className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600'
-          >
-            <TrashIcon className='size-4' />
-            <p className='text-sm font-semibold'>Delete Workspace</p>
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Button
+              type='button'
+              disabled={isDeleteWorkspacePending}
+              onClick={onDeleteWorkspace}
+              className='flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600'
+            >
+              <TrashIcon className='size-4' />
+              <p className='text-sm font-semibold'>Delete Workspace</p>
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
