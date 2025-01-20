@@ -1,9 +1,10 @@
-import { AlertTriangle, Loader } from 'lucide-react';
+import { AlertTriangle, Loader, MessageSquareText } from 'lucide-react';
 
 import { useCurrentMemberApi } from '@/features/members/api/useCurrentMemberApi';
 import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspaceByIdApi';
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
+import { SideBarItem } from './sideBarItem';
 import { WorkspaceHeader } from './workspaceHeader';
 
 export interface WorkspaceSidebarProps {}
@@ -29,7 +30,18 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
   }
   return (
     <div className='__workspaceSidebar flex flex-col bg-[#5E2C5F] h-full'>
-      <WorkspaceHeader workspaceItem={workspaceItem} isAdmin={currentMember.role === 'admin'}></WorkspaceHeader>
+      <WorkspaceHeader
+        workspaceItem={workspaceItem}
+        isAdmin={currentMember.role === 'admin'}
+      ></WorkspaceHeader>
+      <div className='flex flex-col px-2 mt-3'>
+        <SideBarItem
+          label='Threads'
+          icon={MessageSquareText}
+          workspaceId={workspaceId}
+          id='threads'
+        />
+      </div>
     </div>
   );
 };
