@@ -1,10 +1,20 @@
+import { DialogClose, DialogTrigger } from '@radix-ui/react-dialog';
 import { TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { useDeleteWorkspaceApi } from '@/features/workspaces/apis/useDeleteWorkspaceApi';
 import { useUpdateWorkspaceApi } from '@/features/workspaces/apis/useUpdateWorkspaceApi';
+import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 export interface PreferencesModalProps {
   openPreferences: boolean;
@@ -17,9 +27,27 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
   setOpenPreferences,
   initialValue,
 }: PreferencesModalProps) => {
+  const workspaceId = useWorkSpaceId();
   const [value, setValue] = useState(initialValue);
-  const { isPending: isUpdateWorkspacePending } = useUpdateWorkspaceApi();
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const { isPending: isUpdateWorkspacePending, mutate: updateWorkspace } = useUpdateWorkspaceApi();
   const { isPending: isDeleteWorkspacePending } = useDeleteWorkspaceApi();
+
+  const onUpdateWorkspaceSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateWorkspace(
+      { name: value, id: workspaceId },
+      {
+        onSuccess: () => {
+          setOpenEdit(false);
+          toast.success('Workspace name updated successfully');
+        },
+        onError: (error) => {
+          toast.error('Failed to update workspace name');
+        },
+      }
+    );
+  };
 
   return (
     <Dialog open={openPreferences} onOpenChange={setOpenPreferences}>
@@ -28,13 +56,44 @@ export const PreferencesModal: React.FC<PreferencesModalProps> = ({
           <DialogTitle>{value}</DialogTitle>
         </DialogHeader>
         <div className='px-4 pb-4 flex flex-col gap-y-2'>
-          <div className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'>
-            <div className='flex items-center justify-between'>
-              <p className='text-sm font-semibold'>Workspace name</p>
-              <p className='text-sm text-[#1264a3] hover:underline font-semibold'>Edit</p>
-            </div>
-            <p className='text-sm'>{value}</p>
-          </div>
+          <Dialog open={openEdit} onOpenChange={setOpenEdit}>
+            <DialogTrigger asChild>
+              <div className='px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50'>
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm font-semibold'>Workspace name</p>
+                  <p className='text-sm text-[#1264a3] hover:underline font-semibold'>Edit</p>
+                </div>
+                <p className='text-sm'>{value}</p>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Workspace Name</DialogTitle>
+              </DialogHeader>
+              <form className='space-y-4' onSubmit={onUpdateWorkspaceSubmit}>
+                <Input
+                  value={value}
+                  disabled={isUpdateWorkspacePending}
+                  onChange={(e) => setValue(e.target.value)}
+                  required
+                  autoFocus
+                  minLength={3}
+                  maxLength={80}
+                  placeholder='Workspace name'
+                />
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant={'outline'} disabled={isUpdateWorkspacePending}>
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button type='submit' disabled={isUpdateWorkspacePending}>
+                    Save
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
           <Button
             type='button'
             disabled={false}
