@@ -7,6 +7,7 @@ import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspa
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 import { SideBarItem } from './sideBarItem';
+import { UserItem } from './userItem';
 import { WorkspaceHeader } from './workspaceHeader';
 import { WorkspaceSection } from './workspaceSection';
 
@@ -70,9 +71,15 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           />
         ))}
       </WorkspaceSection>
-      {members?.map((m) => {
-        return <div key={m._id}>{m.user.name}</div>;
-      })}
+      {members?.map((m) => (
+        <UserItem
+          id={m._id}
+          label={m?.user?.name}
+          image={m.user.image}
+          workspaceId={workspaceId}
+          key={m._id}
+        />
+      ))}
     </div>
   );
 };
