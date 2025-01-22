@@ -7,6 +7,7 @@ import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 import { SideBarItem } from './sideBarItem';
 import { WorkspaceHeader } from './workspaceHeader';
+import { WorkspaceSection } from './workspaceSection';
 
 export interface WorkspaceSidebarProps {}
 
@@ -43,7 +44,7 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           icon={MessageSquareText}
           workspaceId={workspaceId}
           id='threads'
-          variant={'active'}
+          variant={'default'}
         />
         <SideBarItem
           label='Drafts & Sent'
@@ -52,16 +53,18 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           id='drafts'
           variant={'default'}
         />
-        {channels?.map((c) => (
-          <SideBarItem
-            key={c._id}
-            label={c.name}
-            icon={HashIcon}
-            workspaceId={workspaceId}
-            id={c._id}
-            variant={'default'}
-          />
-        ))}
+        <WorkspaceSection label='Channels' hint='Channels are where your team communicates.'>
+          {channels?.map((c) => (
+            <SideBarItem
+              key={c._id}
+              label={c.name}
+              icon={HashIcon}
+              workspaceId={workspaceId}
+              id={c._id}
+              variant={'default'}
+            />
+          ))}
+        </WorkspaceSection>
       </div>
     </div>
   );

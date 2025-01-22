@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Id } from '../../../../convex/_generated/dataModel';
 
 const sideBarItemVariants = cva(
-  'flex items-center gap-1.5 justify-start font-normal h-7 px-[18px] text-sm overflow-hidden',
+  'flex items-center gap-1.5 justify-start font-normal h-7 px-4 text-sm overflow-hidden',
   {
     variants: {
       variant: {
