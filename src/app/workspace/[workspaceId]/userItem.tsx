@@ -42,7 +42,9 @@ export const UserItem: React.FC<UserItemProps> = (props: UserItemProps) => {
       <Link href={`/workspace/${workspaceId}/member/${id}`}>
         <Avatar className='size-5 mr-1 rounded-md'>
           <AvatarImage className='rounded-md' src={image} alt={label} />
-          <AvatarFallback className='rounded-md'>{label?.charAt(0)?.toUpperCase()}</AvatarFallback>
+          <AvatarFallback className='rounded-md bg-sky-500 text-white text-xs'>
+            {label?.charAt(0)?.toUpperCase()}
+          </AvatarFallback>
         </Avatar>
         <span className='text-sm truncate'>{label}</span>
       </Link>
