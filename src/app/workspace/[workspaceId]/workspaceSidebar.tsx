@@ -1,5 +1,6 @@
-import { AlertTriangle, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
+import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
 
+import { UseGetChannels } from '@/features/channels/apis/useGetChannels';
 import { useCurrentMemberApi } from '@/features/members/api/useCurrentMemberApi';
 import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspaceByIdApi';
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
@@ -13,6 +14,8 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
   const workspaceId = useWorkSpaceId();
   const { data: currentMember, isLoading: isMembersLoading } = useCurrentMemberApi({ workspaceId });
   const { workspaceItem, isLoadingWorkspace } = useGetWorkspaceByIdApi({ id: workspaceId });
+  const { data: channels, isLoading: isChannelsLoading } = UseGetChannels({ workspaceId });
+
   if (isLoadingWorkspace || isMembersLoading) {
     return (
       <div className='flex flex-col bg-[#5E2C5F] h-full items-center justify-center'>
@@ -49,6 +52,16 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           id='drafts'
           variant={'default'}
         />
+        {channels?.map((c) => (
+          <SideBarItem
+            key={c._id}
+            label={c.name}
+            icon={HashIcon}
+            workspaceId={workspaceId}
+            id={c._id}
+            variant={'default'}
+          />
+        ))}
       </div>
     </div>
   );
