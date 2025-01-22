@@ -53,19 +53,19 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           id='drafts'
           variant={'default'}
         />
-        <WorkspaceSection label='Channels' hint='Channels are where your team communicates.'>
-          {channels?.map((c) => (
-            <SideBarItem
-              key={c._id}
-              label={c.name}
-              icon={HashIcon}
-              workspaceId={workspaceId}
-              id={c._id}
-              variant={'default'}
-            />
-          ))}
-        </WorkspaceSection>
       </div>
+      <WorkspaceSection label='Channels' onNew={() => {}} hint='New Channel'>
+        {channels?.map((c) => (
+          <SideBarItem
+            key={c._id}
+            label={c.name}
+            icon={HashIcon}
+            workspaceId={workspaceId}
+            id={c._id}
+            variant={'default'}
+          />
+        ))}
+      </WorkspaceSection>
     </div>
   );
 };
