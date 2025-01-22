@@ -1,4 +1,4 @@
-import { AlertTriangle, Loader, MessageSquareText } from 'lucide-react';
+import { AlertTriangle, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
 
 import { useCurrentMemberApi } from '@/features/members/api/useCurrentMemberApi';
 import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspaceByIdApi';
@@ -40,6 +40,14 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           icon={MessageSquareText}
           workspaceId={workspaceId}
           id='threads'
+          variant={'active'}
+        />
+        <SideBarItem
+          label='Drafts & Sent'
+          icon={SendHorizonal}
+          workspaceId={workspaceId}
+          id='drafts'
+          variant={'default'}
         />
       </div>
     </div>

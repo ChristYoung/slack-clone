@@ -3,8 +3,21 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  "cSpell.words": ["autodocs", "lucide", "overscan", "sonner", "tseslint", "zustand"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "cSpell.words": [
+    "autodocs",
+    "Horizonal",
+    "lucide",
+    "overscan",
+    "sonner",
+    "tseslint",
+    "zustand"
+  ],
   "commentTranslate.source": "Google",
   "commentTranslate.multiLineMerge": true
 }

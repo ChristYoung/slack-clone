@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { IconType } from 'react-icons/lib';
 
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 import { Id } from '../../../../convex/_generated/dataModel';
 
 const sideBarItemVariants = cva(
-  'flex items-center gap-1.5 justify-center font-normal h-7 px-[18px] text-sm overflow-hidden',
+  'flex items-center gap-1.5 justify-start font-normal h-7 px-[18px] text-sm overflow-hidden',
   {
     variants: {
       variant: {
@@ -35,12 +36,18 @@ export const SideBarItem: React.FC<SideBarItemProps> = ({
   icon: Icon,
   id,
   workspaceId,
+  variant,
 }: SideBarItemProps) => {
   return (
-    <Button asChild variant={'transparent'} size={'sm'}>
+    <Button
+      asChild
+      variant={'transparent'}
+      size={'sm'}
+      className={cn(sideBarItemVariants({ variant }))}
+    >
       <Link href={`/workspace/${workspaceId}/channel/${id}`}>
-        <Icon />
-        <span>{label}</span>
+        <Icon className='size-3.5 mr-1 shrink-0' />
+        <span className='text-sm truncate'>{label}</span>
       </Link>
     </Button>
   );
