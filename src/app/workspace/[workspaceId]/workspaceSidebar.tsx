@@ -1,6 +1,7 @@
 import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from 'lucide-react';
 
 import { useGetChannels } from '@/features/channels/apis/useGetChannels';
+import { useCreateChannelModal } from '@/features/channels/store/useCreateChannelModal';
 import { useCurrentMemberApi } from '@/features/members/api/useCurrentMemberApi';
 import { useGetMemberApi } from '@/features/members/api/useGetMemberApi';
 import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspaceByIdApi';
@@ -15,6 +16,7 @@ export interface WorkspaceSidebarProps {}
 
 export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: WorkspaceSidebarProps) => {
   const workspaceId = useWorkSpaceId();
+  const [_open, setOpenChannel] = useCreateChannelModal();
   const { data: currentMember, isLoading: isCurrentMembersLoading } = useCurrentMemberApi({
     workspaceId,
   });
@@ -59,7 +61,11 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
           variant={'default'}
         />
       </div>
-      <WorkspaceSection label='Channels' onNew={() => {}} hint='New Channel'>
+      <WorkspaceSection
+        label='Channels'
+        onNew={currentMember.role === 'admin' ? () => setOpenChannel(true) : undefined}
+        hint='New Channel'
+      >
         {channels?.map((c) => (
           <SideBarItem
             key={c._id}
