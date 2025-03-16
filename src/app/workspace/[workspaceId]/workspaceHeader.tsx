@@ -28,7 +28,12 @@ export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   const [inviteOpen, setInviteOpen] = useState(false);
   return (
     <>
-      <InviteModal open={inviteOpen} setOpen={setInviteOpen} />
+      <InviteModal
+        open={inviteOpen}
+        setOpen={setInviteOpen}
+        name={workspaceItem?.name}
+        joinCode={workspaceItem.joinCode}
+      />
       <PreferencesModal
         openPreferences={openPreferences}
         setOpenPreferences={setOpenPreferences}
