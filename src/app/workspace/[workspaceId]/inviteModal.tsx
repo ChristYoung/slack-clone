@@ -1,11 +1,12 @@
 'use client';
 
-import { DialogDescription } from '@radix-ui/react-dialog';
-import { CopyIcon } from 'lucide-react';
+import { DialogClose, DialogDescription } from '@radix-ui/react-dialog';
+import { CopyIcon, RefreshCcw } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useNewJoinCodeApi } from '@/features/workspaces/apis/useNewJoinCode';
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 export interface InviteModalProps {
@@ -18,11 +19,25 @@ export interface InviteModalProps {
 export const InviteModal: React.FC<InviteModalProps> = (props: InviteModalProps) => {
   const { open, setOpen, name, joinCode } = props;
   const workspaceId = useWorkSpaceId();
+  const { mutate, isPending } = useNewJoinCodeApi();
   const handleCopy = () => {
     const inviteLink = `${window.location.origin}/join/${workspaceId}`;
     navigator.clipboard.writeText(inviteLink).then(() => {
       toast.success('Link copied to clipboard');
     });
+  };
+  const handleGenerateNewJoinCode = () => {
+    mutate(
+      { workspaceId },
+      {
+        onSuccess: (data) => {
+          toast.success('New join code generated successfully');
+        },
+        onError: (error) => {
+          toast.error('Failed to generate new join code');
+        },
+      }
+    );
   };
 
   return (
@@ -40,6 +55,14 @@ export const InviteModal: React.FC<InviteModalProps> = (props: InviteModalProps)
             Copy Link
             <CopyIcon className='size-4 ml-2' />
           </Button>
+        </div>
+        <div className='flex items-center justify-between w-full'>
+          <Button disabled={isPending} onClick={handleGenerateNewJoinCode} variant={'outline'}>
+            New Code <RefreshCcw />
+          </Button>
+          <DialogClose asChild>
+            <Button>Close</Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>
