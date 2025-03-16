@@ -2,7 +2,7 @@
 
 import { DialogClose, DialogDescription } from '@radix-ui/react-dialog';
 import { CopyIcon, RefreshCcw } from 'lucide-react';
-import { toast, Toaster } from 'sonner';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
