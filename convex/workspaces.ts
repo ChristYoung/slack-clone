@@ -16,14 +16,14 @@ const generateJoinCode = () => {
 export const join = mutation({
   args: {
     joinCode: v.string(),
-    workSpaceId: v.id('workspaces'),
+    workspaceId: v.id('workspaces'),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
       throw new Error('User not authenticated');
     }
-    const workspace = await ctx.db.get(args.workSpaceId);
+    const workspace = await ctx.db.get(args.workspaceId);
     if (!workspace || workspace.joinCode !== args.joinCode) {
       throw new Error('Invalid join code');
     }
