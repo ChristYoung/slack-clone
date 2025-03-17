@@ -13,6 +13,39 @@ const generateJoinCode = () => {
   ).join('');
 };
 
+export const join = mutation({
+  args: {
+    joinCode: v.string(),
+    workSpaceId: v.id('workspaces'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const workspace = await ctx.db.get(args.workSpaceId);
+    if (!workspace || workspace.joinCode !== args.joinCode) {
+      throw new Error('Invalid join code');
+    }
+    if (workspace.joinCode.toLowerCase() !== args.joinCode.toLowerCase()) {
+      throw new Error('Invalid join code');
+    }
+    const existingMember = await ctx.db
+      .query('members')
+      .withIndex('by_user_id', (q) => q.eq('userId', userId))
+      .collect();
+    if (existingMember) {
+      throw new Error('User already in a workspace');
+    }
+    await ctx.db.insert('members', {
+      workspaceId: workspace._id,
+      userId,
+      role: 'member',
+    });
+    return workspace._id;
+  },
+});
+
 export const newJoinCode = mutation({
   args: {
     workspaceId: v.id('workspaces'),
