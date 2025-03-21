@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:convex": "npx convex dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
-    "lint": "next lint",
-    "convex:dev": "npx convex dev"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/core": "^0.37.4",
