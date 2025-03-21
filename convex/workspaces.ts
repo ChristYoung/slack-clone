@@ -24,17 +24,14 @@ export const join = mutation({
       throw new Error('User not authenticated');
     }
     const workspace = await ctx.db.get(args.workspaceId);
-    if (!workspace || workspace.joinCode !== args.joinCode) {
-      throw new Error('Invalid join code');
-    }
-    if (workspace.joinCode.toLowerCase() !== args.joinCode.toLowerCase()) {
-      throw new Error('Invalid join code');
+    if (!workspace || workspace.joinCode.toLowerCase() !== args.joinCode.toLowerCase()) {
+      throw new Error('Invalid join code error');
     }
     const existingMember = await ctx.db
       .query('members')
       .withIndex('by_user_id', (q) => q.eq('userId', userId))
       .collect();
-    if (existingMember) {
+    if (existingMember?.length > 0) {
       throw new Error('User already in a workspace');
     }
     await ctx.db.insert('members', {
