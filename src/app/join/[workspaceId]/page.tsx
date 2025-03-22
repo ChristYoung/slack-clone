@@ -4,6 +4,7 @@ import { Loader } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
 import VerificationInput from 'react-verification-input';
 import { toast } from 'sonner';
 
@@ -25,6 +26,13 @@ const JoinPage: React.FC<PageProps> = (props: PageProps) => {
   const router = useRouter();
   const { workspaceItem, isLoadingWorkspace } = useGetWorkspaceInfoByIdApi({ id: workspaceId });
   const { mutate, isPending } = useJoinApi();
+  const isMember = useMemo(() => workspaceItem?.isMember, [workspaceItem?.isMember]);
+
+  useEffect(() => {
+    if (isMember) {
+      router.replace(`/workspace/${workspaceId}`);
+    }
+  }, [isMember, router, workspaceId]);
 
   const handleJoin = (joinCode: string) => {
     mutate(
