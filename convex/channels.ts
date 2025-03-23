@@ -64,3 +64,35 @@ export const get = query({
     return channels;
   },
 });
+
+export const getChannelById = query({
+  args: {
+    channelId: v.id('channels'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('Not authenticated');
+    }
+
+    const channel = await ctx.db.get(args.channelId);
+
+    if (!channel) {
+      throw new Error('Channel not found');
+    }
+
+    // Ensure the user is a member of the workspace
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', channel.workspaceId).eq('userId', userId)
+      )
+      .unique();
+
+    if (!member) {
+      throw new Error('Not a member of the workspace');
+    }
+
+    return channel;
+  },
+});
