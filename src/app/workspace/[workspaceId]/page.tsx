@@ -43,7 +43,7 @@ const WorkSpaceIdPage: React.FC = () => {
     isAdmin,
   ]);
 
-  if (isLoadingWorkspace || isLoadingChannels) {
+  if (isLoadingWorkspace || isLoadingChannels || isLoadingMember) {
     return (
       <div className='h-full flex items-center justify-center'>
         <Loader className='size-6 animate-spin text-foreground' />
@@ -51,7 +51,7 @@ const WorkSpaceIdPage: React.FC = () => {
     );
   }
 
-  if (!workspaceItem) {
+  if (!workspaceItem || !member) {
     return (
       <div className='h-full flex items-center justify-center'>
         <TriangleAlert className='size-6 text-foreground' />
