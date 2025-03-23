@@ -2,7 +2,7 @@ import { ImageIcon, Smile } from 'lucide-react';
 import Quill, { type QuillOptions } from 'quill';
 import { Delta, Op } from 'quill/core';
 import 'quill/dist/quill.snow.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { MdSend } from 'react-icons/md';
 import { PiTextAa } from 'react-icons/pi';
 
@@ -30,8 +30,26 @@ const Editor: React.FC<EditorProps> = (props: EditorProps) => {
     placeholder = 'Write your message',
     defaultValue = [],
     innerRef,
+    onSubmit,
+    disabled,
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Why use ref here?
+  const submitRef = useRef(onSubmit);
+  const placeHolderRef = useRef(placeholder);
+  const defaultValueRef = useRef(defaultValue);
+  const innerRefRef = useRef(innerRef);
+  const disabledRef = useRef(disabled);
+  const quillRef = useRef<Quill | null>(null);
+
+  useLayoutEffect(() => {
+    submitRef.current = onSubmit;
+    placeHolderRef.current = placeholder;
+    defaultValueRef.current = defaultValue;
+    innerRefRef.current = innerRef;
+    disabledRef.current = disabled;
+  });
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -41,6 +59,8 @@ const Editor: React.FC<EditorProps> = (props: EditorProps) => {
     const editorContainer = container.appendChild(container.ownerDocument.createElement('div'));
     const options: QuillOptions = {
       theme: 'snow',
+      placeholder: placeHolderRef.current,
+      readOnly: disabledRef.current,
     };
     new Quill(editorContainer, options);
     return () => {
