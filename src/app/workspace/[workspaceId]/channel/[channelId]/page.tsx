@@ -5,6 +5,8 @@ import { Loader, TriangleAlert } from 'lucide-react';
 import { useGetChannelByIdApi } from '@/features/channels/apis/useGetChannelByIdApi';
 import { useChannelId } from '@/hooks/useChannelId';
 
+import { Header } from './Header';
+
 export interface PageProps {}
 
 const ChannelIdPage: React.FC<PageProps> = (props: PageProps) => {
@@ -28,7 +30,11 @@ const ChannelIdPage: React.FC<PageProps> = (props: PageProps) => {
     );
   }
 
-  return <div className='__page'>Channel page component works!</div>;
+  return (
+    <div className='flex flex-col h-full'>
+      <Header title={channel?.name} />
+    </div>
+  );
 };
 
 export default ChannelIdPage;
