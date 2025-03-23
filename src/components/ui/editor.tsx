@@ -60,6 +60,31 @@ const Editor: React.FC<EditorProps> = (props: EditorProps) => {
       theme: 'snow',
       placeholder: placeHolderRef.current,
       readOnly: disabledRef.current,
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['link'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+        ],
+        keyboard: {
+          bindings: {
+            enter: {
+              key: 'Enter',
+              handler: () => {
+                // TODO: need to call submit when press 'enter'
+                return;
+              },
+            },
+            shift_enter: {
+              key: 'Enter',
+              shiftKey: true,
+              handler: () => {
+                quillInstance.insertText(quillInstance.getSelection()?.index || 0, '\n');
+              },
+            },
+          },
+        },
+      },
     };
 
     const quillInstance = new Quill(editorContainer, options);
