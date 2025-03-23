@@ -5,8 +5,6 @@ import { Loader, TriangleAlert } from 'lucide-react';
 import { useGetChannelByIdApi } from '@/features/channels/apis/useGetChannelByIdApi';
 import { useChannelId } from '@/hooks/useChannelId';
 
-import { Id } from '../../../../../../convex/_generated/dataModel';
-
 export interface PageProps {}
 
 const ChannelIdPage: React.FC<PageProps> = (props: PageProps) => {
