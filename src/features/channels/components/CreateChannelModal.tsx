@@ -1,4 +1,6 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,6 +16,7 @@ export const CreateChannelModal: React.FC<CreateChannelModalProps> = (
   props: CreateChannelModalProps
 ) => {
   const workspaceId = useWorkSpaceId();
+  const router = useRouter();
   const [open, setOpen] = useCreateChannelModal();
   const [channelName, setChannelName] = useState<string>();
   const { mutate, isPending } = useCreateChannelApi();
@@ -31,9 +34,10 @@ export const CreateChannelModal: React.FC<CreateChannelModalProps> = (
     await mutate(
       { name: channelName, workspaceId },
       {
-        onSuccess: () => {
+        onSuccess: (channelId) => {
+          toast.success('Channel created successfully');
+          router.push(`/workspace/${workspaceId}/channel/${channelId}`);
           handClose();
-          // TODO: Redirect to the new channel
         },
       }
     );

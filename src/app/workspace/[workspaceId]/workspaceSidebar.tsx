@@ -5,6 +5,7 @@ import { useCreateChannelModal } from '@/features/channels/store/useCreateChanne
 import { useCurrentMemberApi } from '@/features/members/api/useCurrentMemberApi';
 import { useGetMemberApi } from '@/features/members/api/useGetMemberApi';
 import { useGetWorkspaceByIdApi } from '@/features/workspaces/apis/useGetWorkspaceByIdApi';
+import { useChannelId } from '@/hooks/useChannelId';
 import { useWorkSpaceId } from '@/hooks/useWorkSpaceId';
 
 import { SideBarItem } from './sideBarItem';
@@ -16,6 +17,7 @@ export interface WorkspaceSidebarProps {}
 
 export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: WorkspaceSidebarProps) => {
   const workspaceId = useWorkSpaceId();
+  const channelId = useChannelId();
   const [_open, setOpenChannel] = useCreateChannelModal();
   const { data: currentMember, isLoading: isCurrentMembersLoading } = useCurrentMemberApi({
     workspaceId,
@@ -73,7 +75,7 @@ export const WorkspaceSidebar: React.FC<WorkspaceSidebarProps> = (props: Workspa
             icon={HashIcon}
             workspaceId={workspaceId}
             id={c._id}
-            variant={'default'}
+            variant={channelId === c._id ? 'active' : 'default'}
           />
         ))}
       </WorkspaceSection>
