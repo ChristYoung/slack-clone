@@ -13,6 +13,64 @@ const generateJoinCode = () => {
   ).join('');
 };
 
+export const join = mutation({
+  args: {
+    joinCode: v.string(),
+    workspaceId: v.id('workspaces'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const workspace = await ctx.db.get(args.workspaceId);
+    if (!workspace || workspace.joinCode.toLowerCase() !== args.joinCode.toLowerCase()) {
+      throw new Error('Invalid join code error');
+    }
+    const existingMember = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.workspaceId).eq('userId', userId)
+      )
+      .unique();
+    if (existingMember) {
+      throw new Error('User already in a workspace');
+    }
+    await ctx.db.insert('members', {
+      workspaceId: workspace._id,
+      userId,
+      role: 'member',
+    });
+    return workspace._id;
+  },
+});
+
+export const newJoinCode = mutation({
+  args: {
+    workspaceId: v.id('workspaces'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.workspaceId).eq('userId', userId)
+      )
+      .unique();
+    if (!member || member.role !== 'admin') {
+      throw new Error('User not authenticated');
+    }
+    const joinCode = generateJoinCode();
+    await ctx.db.patch(args.workspaceId, {
+      joinCode,
+    });
+    return args.workspaceId;
+  },
+});
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -69,6 +127,29 @@ export const get = query({
       }
     }
     return workspaces;
+  },
+});
+
+export const getWorkspaceInfoById = query({
+  args: {
+    id: v.id('workspaces'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error('User not authenticated');
+    }
+    const member = await ctx.db
+      .query('members')
+      .withIndex('by_workspace_id_and_user_id', (q) =>
+        q.eq('workspaceId', args.id).eq('userId', userId)
+      )
+      .unique();
+    const workspaceInfo = await ctx.db.get(args.id);
+    return {
+      name: workspaceInfo?.name,
+      isMember: !!member,
+    };
   },
 });
 
