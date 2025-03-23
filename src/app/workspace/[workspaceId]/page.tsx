@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader, TriangleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
@@ -35,7 +36,23 @@ const WorkSpaceIdPage: React.FC = () => {
     workspaceItem,
   ]);
 
-  return <div className='__page'>WorkspaceItem</div>;
+  if (isLoadingWorkspace || isLoadingChannels) {
+    return (
+      <div className='h-full flex items-center justify-center'>
+        <Loader className='size-6 animate-spin text-foreground' />
+      </div>
+    );
+  }
+
+  if (!workspaceItem) {
+    return (
+      <div className='h-full flex items-center justify-center'>
+        <TriangleAlert className='size-6 animate-spin text-foreground' />
+        <span className='text-sm text-muted-foreground'>Workspace not found</span>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default WorkSpaceIdPage;
