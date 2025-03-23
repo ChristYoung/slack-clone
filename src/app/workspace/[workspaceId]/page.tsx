@@ -53,7 +53,7 @@ const WorkSpaceIdPage: React.FC = () => {
 
   if (!workspaceItem || !member) {
     return (
-      <div className='h-full flex items-center justify-center'>
+      <div className='h-full flex flex-col gap-y-2 items-center justify-center'>
         <TriangleAlert className='size-6 text-foreground' />
         <span className='text-sm text-muted-foreground'>Workspace not found</span>
       </div>
