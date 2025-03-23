@@ -27,7 +27,7 @@ export interface EditorProps {
 const Editor: React.FC<EditorProps> = (props: EditorProps) => {
   const {
     variant = 'create',
-    placeholder = 'Write your message',
+    placeholder,
     defaultValue = [],
     innerRef,
     onSubmit,
@@ -62,7 +62,15 @@ const Editor: React.FC<EditorProps> = (props: EditorProps) => {
       placeholder: placeHolderRef.current,
       readOnly: disabledRef.current,
     };
-    new Quill(editorContainer, options);
+
+    const quillInstance = new Quill(editorContainer, options);
+    quillRef.current = quillInstance;
+    quillRef.current.focus();
+
+    if (innerRefRef.current) {
+      innerRefRef.current.current = quillInstance;
+    }
+
     return () => {
       if (container) {
         container.innerHTML = '';

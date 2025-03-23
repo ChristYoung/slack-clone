@@ -35,7 +35,7 @@ const ChannelIdPage: React.FC<PageProps> = (props: PageProps) => {
     <div className='flex flex-col h-full'>
       <Header title={channel?.name} />
       <div className='flex-1'></div>
-      <ChatInput />
+      <ChatInput placeHolder={`Message # ${channel.name}`} />
     </div>
   );
 };
